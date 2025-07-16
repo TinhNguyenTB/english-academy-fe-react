@@ -8,6 +8,7 @@ interface FormOtpInputProps<T extends FieldValues> {
   label?: string
   length?: number
   rules?: RegisterOptions<T, Path<T>>
+  required?: boolean
 }
 
 export function FormOtpInput<T extends FieldValues>({
@@ -15,7 +16,8 @@ export function FormOtpInput<T extends FieldValues>({
   control,
   label,
   length = 6,
-  rules
+  rules,
+  required = false
 }: FormOtpInputProps<T>) {
   const inputsRef = useRef<Array<HTMLInputElement | null>>([])
 
@@ -46,7 +48,19 @@ export function FormOtpInput<T extends FieldValues>({
         }
 
         return (
-          <Form.Item label={label} validateStatus={error ? 'error' : ''} help={error?.message}>
+          <Form.Item
+            label={
+              required && label ? (
+                <span>
+                  {label} <span style={{ color: 'red' }}>*</span>
+                </span>
+              ) : (
+                label
+              )
+            }
+            validateStatus={error ? 'error' : ''}
+            help={error?.message}
+          >
             <Space>
               {Array.from({ length }).map((_, index) => (
                 <Input

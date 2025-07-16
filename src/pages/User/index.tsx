@@ -58,6 +58,8 @@ export default function UserPage() {
         <div style={{ padding: 8 }}>
           <FormInput
             name='firstName'
+            label='First Name'
+            required
             control={control}
             placeholder='Search first name'
             prefix={<SearchOutlined />}
@@ -78,6 +80,7 @@ export default function UserPage() {
             name='otp'
             control={control}
             label='Enter OTP'
+            required
             rules={{
               required: 'OTP is required',
               minLength: { value: 6, message: 'OTP must be 6 digits' },

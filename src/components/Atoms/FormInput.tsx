@@ -13,6 +13,7 @@ interface FormInputProps<T extends FieldValues> {
   variant?: 'filled' | 'underlined' | 'borderless' | 'outlined'
   password?: boolean
   rules?: RegisterOptions<T, Path<T>>
+  required?: boolean
 }
 
 export function FormInput<T extends FieldValues>({
@@ -26,7 +27,8 @@ export function FormInput<T extends FieldValues>({
   size = 'middle',
   variant = 'outlined',
   password = false,
-  rules
+  rules,
+  required = false
 }: FormInputProps<T>) {
   return (
     <Controller
@@ -34,7 +36,19 @@ export function FormInput<T extends FieldValues>({
       control={control}
       rules={rules}
       render={({ field, fieldState: { error } }) => (
-        <Form.Item label={label} validateStatus={error ? 'error' : ''} help={error?.message}>
+        <Form.Item
+          label={
+            required && label ? (
+              <span>
+                {label} <span style={{ color: 'red' }}>*</span>
+              </span>
+            ) : (
+              label
+            )
+          }
+          validateStatus={error ? 'error' : ''}
+          help={error?.message}
+        >
           {password ? (
             <Input.Password
               {...field}
