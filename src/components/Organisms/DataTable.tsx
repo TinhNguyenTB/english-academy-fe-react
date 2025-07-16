@@ -41,21 +41,24 @@ export function DateTable<T extends { id: number }>({
     current: 1,
     pageSize: 10
   })
-  const [sortField, setSortField] = useState('id')
+  const [sortField, setSortField] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<'ascend' | 'descend' | null>(null)
 
   const { data, isFetching } = useQuery({
     queryKey: [endpoint, pagination.current, pagination.pageSize, sortField, sortOrder, filters],
     queryFn: async () => {
-      const res = await axios.get<PageResponse<T>>(endpoint, {
-        params: {
-          page: pagination.current! - 1,
-          size: pagination.pageSize,
-          sortBy: sortField,
-          direction: sortOrder === 'ascend' ? 'asc' : 'desc',
-          ...filters
-        }
-      })
+      const params: Record<string, any> = {
+        page: pagination.current! - 1,
+        size: pagination.pageSize,
+        ...filters
+      }
+
+      if (sortField && sortOrder) {
+        params.sortBy = sortField
+        params.direction = sortOrder === 'ascend' ? 'asc' : 'desc'
+      }
+
+      const res = await axios.get<PageResponse<T>>(endpoint, { params })
       return res.data
     }
   })

@@ -20,12 +20,7 @@ interface User {
 
 export default function UserPage() {
   const { control, handleSubmit, getValues } = useForm<User>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      role: ''
-    }
+    defaultValues: {}
   })
 
   const [submittedFilters, setSubmittedFilters] = useState<Partial<User>>({})
@@ -33,7 +28,7 @@ export default function UserPage() {
   const onSubmit = (data: User) => {
     console.log('Filters submitted:', data)
     const currentValues = getValues()
-    setSubmittedFilters({ ...currentValues, page: 0, size: 2 }) // cập nhật filter sau khi bấm Apply
+    setSubmittedFilters(currentValues)
   }
 
   const handleEdit = (user: User) => {
@@ -54,12 +49,13 @@ export default function UserPage() {
       title: 'First Name',
       dataIndex: 'firstName',
       sorter: true,
+      filterIcon(filtered) {
+        return <SearchOutlined style={{ color: filtered ? 'blue' : undefined }} />
+      },
       filterDropdown: () => (
         <div style={{ padding: 8 }}>
           <FormInput
             name='firstName'
-            label='First Name'
-            required
             control={control}
             placeholder='Search first name'
             prefix={<SearchOutlined />}
