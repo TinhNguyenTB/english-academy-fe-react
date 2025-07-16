@@ -5,6 +5,7 @@ import type { ColumnsType } from 'antd/es/table'
 import { Button, Popconfirm } from 'antd'
 import { FormInput } from '@/components/Atoms/FormInput'
 import { SearchOutlined } from '@ant-design/icons'
+import { FormOtpInput } from '@/components/Atoms/FormOtpInput'
 
 interface User {
   id: number
@@ -14,6 +15,7 @@ interface User {
   role: string
   page?: number
   size?: number
+  otp?: string
 }
 
 export default function UserPage() {
@@ -29,6 +31,7 @@ export default function UserPage() {
   const [submittedFilters, setSubmittedFilters] = useState<Partial<User>>({})
 
   const onSubmit = (data: User) => {
+    console.log('Filters submitted:', data)
     const currentValues = getValues()
     setSubmittedFilters({ ...currentValues, page: 0, size: 2 }) // cập nhật filter sau khi bấm Apply
   }
@@ -71,11 +74,15 @@ export default function UserPage() {
       dataIndex: 'role',
       filterDropdown: () => (
         <div style={{ padding: 8 }}>
-          <FormInput
-            name='role'
+          <FormOtpInput
+            name='otp'
             control={control}
-            placeholder='Search role'
-            prefix={<SearchOutlined />}
+            label='Enter OTP'
+            rules={{
+              required: 'OTP is required',
+              minLength: { value: 6, message: 'OTP must be 6 digits' },
+              pattern: { value: /^[0-9]+$/, message: 'OTP must be numeric' }
+            }}
           />
           <Button type='primary' size='small' onClick={() => handleSubmit(onSubmit)()}>
             Apply
