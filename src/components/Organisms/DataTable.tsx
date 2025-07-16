@@ -24,6 +24,7 @@ interface Props<T extends { id: number }> {
     | 'topCenter'
     | 'topLeft'
     | 'topRight'
+  showTotal?: (total: number, range: [number, number]) => string
 }
 
 export function DateTable<T extends { id: number }>({
@@ -33,7 +34,8 @@ export function DateTable<T extends { id: number }>({
   rowActions,
   showSizeChanger = false,
   showQuickJumper = false,
-  paginationPosition = 'bottomCenter'
+  paginationPosition = 'bottomCenter',
+  showTotal
 }: Props<T>) {
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
@@ -101,7 +103,8 @@ export function DateTable<T extends { id: number }>({
         showSizeChanger: showSizeChanger,
         showQuickJumper: showQuickJumper,
         pageSizeOptions: ['5', '10', '20', '50'],
-        position: [paginationPosition]
+        position: [paginationPosition],
+        showTotal
       }}
       onChange={handleTableChange}
     />

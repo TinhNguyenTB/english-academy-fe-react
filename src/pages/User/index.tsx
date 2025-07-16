@@ -106,6 +106,7 @@ export default function UserPage() {
         columns={columns}
         endpoint='/users'
         filters={submittedFilters}
+        showTotal={(total, range) => `Showing ${range[0]}-${range[1]} of ${total} users`}
         rowActions={(record) => (
           <>
             <Button type='link' onClick={() => handleEdit(record)}>
