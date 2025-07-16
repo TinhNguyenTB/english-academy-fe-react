@@ -14,9 +14,27 @@ interface Props<T extends { id: number }> {
   endpoint: string
   filters?: Record<string, any>
   rowActions?: (record: T) => React.ReactNode
+  showSizeChanger?: boolean
+  showQuickJumper?: boolean
+  paginationPosition?:
+    | 'bottomCenter'
+    | 'bottomLeft'
+    | 'bottomRight'
+    | 'none'
+    | 'topCenter'
+    | 'topLeft'
+    | 'topRight'
 }
 
-export function DateTable<T extends { id: number }>({ columns, endpoint, filters = {}, rowActions }: Props<T>) {
+export function DateTable<T extends { id: number }>({
+  columns,
+  endpoint,
+  filters = {},
+  rowActions,
+  showSizeChanger = false,
+  showQuickJumper = false,
+  paginationPosition = 'bottomCenter'
+}: Props<T>) {
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 10
@@ -71,6 +89,7 @@ export function DateTable<T extends { id: number }>({ columns, endpoint, filters
 
   return (
     <Table
+      scroll={{ x: 'max-content' }}
       rowKey='id'
       columns={mergedColumns || []}
       dataSource={data?.content || []}
@@ -78,7 +97,11 @@ export function DateTable<T extends { id: number }>({ columns, endpoint, filters
       pagination={{
         current: pagination.current,
         pageSize: pagination.pageSize,
-        total: data?.totalElements
+        total: data?.totalElements,
+        showSizeChanger: showSizeChanger,
+        showQuickJumper: showQuickJumper,
+        pageSizeOptions: ['5', '10', '20', '50'],
+        position: [paginationPosition]
       }}
       onChange={handleTableChange}
     />
