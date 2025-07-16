@@ -1,4 +1,4 @@
-import { LanguageSwitcher } from '@/components/custom/LanguageSwitcher'
+import { LanguageSwitcher } from '@/components/Customs/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 
 export default function Home() {
