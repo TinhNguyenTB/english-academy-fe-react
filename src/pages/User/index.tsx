@@ -6,6 +6,7 @@ import { Button, Popconfirm } from 'antd'
 import { FormInput } from '@/components/Atoms/FormInput'
 import { SearchOutlined } from '@ant-design/icons'
 import { FormOtpInput } from '@/components/Atoms/FormOtpInput'
+import { FormSelect } from '@/components/Atoms/FormSelect'
 
 interface User {
   id: number
@@ -91,7 +92,23 @@ export default function UserPage() {
     },
     {
       title: 'Email',
-      dataIndex: 'email'
+      dataIndex: 'email',
+      filterDropdown: () => (
+        <FormSelect
+          name='email'
+          // label='Người dùng'
+          control={control}
+          options={[
+            { id: 1, profile: { name: 'Nguyễn Văn A' } },
+            { id: 2, profile: { name: 'Trần Thị B' } }
+          ]}
+          labelPath='profile.name'
+          valuePath='id'
+          required
+          rules={{ required: 'hihi' }}
+          placeholder='Chọn người dùng'
+        />
+      )
     }
   ]
 
