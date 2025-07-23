@@ -1,12 +1,5 @@
-import { LanguageSwitcher } from '@/components/Atoms/LanguageSwitcher'
-import { useTranslation } from 'react-i18next'
+import { HomeTemplate } from '@/components/Templates/Home'
 
-export default function Home() {
-  const { t } = useTranslation('home')
-  return (
-    <main>
-      <LanguageSwitcher />
-      <h1>{t('welcome')}</h1>
-    </main>
-  )
+export function HomePage() {
+  return <HomeTemplate />
 }

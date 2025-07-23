@@ -1,17 +1,24 @@
+import { ProtectedLayout } from '@/components/Templates/Layout/Protected'
+import { PublicLayout } from '@/components/Templates/Layout/Public'
 import { PATHS } from '@/constants/paths'
-import Home from '@/pages/Home'
+import { HomePage } from '@/pages/Home'
 import { LoginPage } from '@/pages/Login'
 import UserPage from '@/pages/User'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([
   {
-    path: PATHS.HOME,
-    element: <Home />
+    path: '',
+    element: <ProtectedLayout />,
+    children: [{ path: PATHS.HOME, element: <HomePage /> }]
   },
   {
     path: PATHS.LOGIN,
-    element: <LoginPage />
+    element: (
+      <PublicLayout>
+        <LoginPage />
+      </PublicLayout>
+    )
   },
   {
     path: '/users',
