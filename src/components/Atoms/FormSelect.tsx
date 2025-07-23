@@ -35,16 +35,14 @@ export function FormSelect<
     value: get(item, valuePath)
   }))
 
+  const errorMessage = get(control._formState.errors, name)?.message
+
   return (
     <Form.Item
       label={label}
       required={required}
       validateStatus={control?._formState?.errors?.[name] ? 'error' : ''}
-      help={
-        typeof control?._formState?.errors?.[name]?.message === 'string'
-          ? control._formState.errors[name]?.message
-          : undefined
-      }
+      help={typeof errorMessage === 'string' ? errorMessage : undefined}
     >
       <Controller
         name={name}
